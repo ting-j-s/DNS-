@@ -18,7 +18,7 @@ if "%1"=="clean" (
 
 set CFLAGS=-Wall -Wextra -std=c11 -I include
 set LDFLAGS=-lws2_32
-set SRCS=src\main.c src\config.c src\logger.c src\platform_win.c src\udp_socket.c src\dns_packet.c src\dns_name.c src\resource_record.c src\resource_store.c
+set SRCS=src\main.c src\config.c src\logger.c src\platform_win.c src\udp_socket.c src\dns_packet.c src\dns_name.c src\resource_record.c src\resource_store.c src\transaction.c src\cache.c src\tcp_dns_client.c
 
 if "%1"=="release" (
     set CFLAGS=%CFLAGS% -O2 -DNDEBUG

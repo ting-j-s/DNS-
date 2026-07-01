@@ -1,2 +1,16 @@
+# legacy format
 1.1.1.1 www.test.com
 0.0.0.0 bad.test.com
+
+# multi A
+A multi.example.com 1.1.1.1
+A multi.example.com 2.2.2.2
+A multi.example.com 3.3.3.3
+
+# advanced records
+AAAA ipv6.example.com 2001:db8::1
+CNAME alias.example.com real.example.com
+NS example.com ns1.example.com
+PTR 4.3.2.1.in-addr.arpa host.example.com
+MX example.com 10 mail.example.com
+BLOCK blocked.example.com
