@@ -128,8 +128,8 @@ PACKAGE_CHECKLIST.md      Final submission checklist
 | `dns_packet`      | DNS header/question/answer parsing and construction|
 | `dns_name`        | DNS name encode/decode, compression pointer support|
 | `resource_record` | A/AAAA/NS/CNAME/PTR/MX record representation       |
-| `resource_store`  | Unified lookup: static file + dynamic cache        |
-| `cache`           | Dynamic cache, hash lookup, TTL expiration         |
+| `resource_store`  | Static resource record file loading and local table lookup |
+| `cache`           | Dynamic upstream answer cache with hash lookup and TTL expiration |
 | `transaction`     | DNS ID translation, client mapping, timeout cleanup|
 
 ### Concurrency Model

@@ -140,8 +140,10 @@ int cache_lookup(CacheTable *cache,
         CacheEntry *entry = &cache->entries[idx];
 
         if (!entry->used) {
-            /* Empty slot — stop searching */
-            return 0;
+            /* Empty slot — may be a deleted entry in the probe chain;
+             * continue probing instead of stopping.                      */
+            idx = (idx + 1) % cache->size;
+            continue;
         }
 
         if (cache_entry_key_match(entry, norm_name, qtype, qclass)) {

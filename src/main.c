@@ -586,7 +586,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
 
-        LOG_INFO("Phase 4-3: select event loop with timeout cleanup");
+        LOG_INFO("dnsrelay event loop started");
 
         /* 9. select event loop — listen on both client and upstream sockets */
         while (1) {
