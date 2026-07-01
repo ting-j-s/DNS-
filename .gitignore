@@ -1,3 +1,16 @@
 .claude/
 CLAUDE.md
 background/
+
+# Build artifacts
+dnsrelay.exe
+*.o
+*.obj
+*.pch
+*.ilk
+*.pdb
+Debug/
+Release/
+
+# Log files
+*.log
