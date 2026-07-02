@@ -1,6 +1,7 @@
 .claude/
 CLAUDE.md
 background/
+learn/
 
 # Build artifacts
 dnsrelay.exe
