@@ -12,7 +12,7 @@ Final submission checklist for the course design project.
 
 ## 2. Acceptance Demo Verification
 
-Follow [ACCEPTANCE_DEMO_STEPS.md](ACCEPTANCE_DEMO_STEPS.md). Quick checklist:
+Follow [ACCEPTANCE_DEMO_STEPS.md](ACCEPTANCE_DEMO_STEPS.md). Quick checklist (see `docs/ACCEPTANCE_DEMO_STEPS.md`):
 
 - [ ] Step 1: BLOCK — `nslookup bad.test.com <server-ip>` → NXDOMAIN, no upstream
 - [ ] Step 2: Local — `nslookup www.test.com <server-ip>` → 1.1.1.1, no upstream
@@ -85,13 +85,13 @@ src/
 build.bat
 dnsrelay.txt
 README.md
-TEST_CASES.md
-REPORT_MATERIALS.md
-PROJECT_STRUCTURE.md
-PACKAGE_CHECKLIST.md
-A4_ACCEPTANCE_SHEET.md
-ACCEPTANCE_DEMO_STEPS.md
-```
+docs/
+├── TEST_CASES.md
+├── REPORT_MATERIALS.md
+├── PROJECT_STRUCTURE.md
+├── PACKAGE_CHECKLIST.md
+├── A4_ACCEPTANCE_SHEET.md
+└── ACCEPTANCE_DEMO_STEPS.md
 
 ### Files to EXCLUDE
 
@@ -120,11 +120,13 @@ background/
 
 ## 8. Documentation Checklist
 
-- [ ] README.md: project description, build, run, features, limitations
-- [ ] TEST_CASES.md: comprehensive test cases with commands and expected results
-- [ ] REPORT_MATERIALS.md: ready-to-use content for the course design report
-- [ ] PROJECT_STRUCTURE.md: directory layout, file descriptions, dependency graph
-- [ ] PACKAGE_CHECKLIST.md: this file
+- [ ] `README.md`: project description, build, run, features, limitations
+- [ ] `docs/TEST_CASES.md`: comprehensive test cases with commands and expected results
+- [ ] `docs/REPORT_MATERIALS.md`: ready-to-use content for the course design report
+- [ ] `docs/PROJECT_STRUCTURE.md`: directory layout, file descriptions, dependency graph
+- [ ] `docs/PACKAGE_CHECKLIST.md`: this file
+- [ ] `docs/A4_ACCEPTANCE_SHEET.md`: acceptance A4 paper template
+- [ ] `docs/ACCEPTANCE_DEMO_STEPS.md`: live demo step-by-step script
 
 ## 9. Final Submission
 
@@ -141,15 +143,10 @@ background/
 学号1-学号2-学号3.rar
 ├── include/
 ├── src/
+├── docs/
 ├── build.bat
 ├── dnsrelay.txt
-├── README.md
-├── TEST_CASES.md
-├── REPORT_MATERIALS.md
-├── PROJECT_STRUCTURE.md
-├── PACKAGE_CHECKLIST.md
-├── A4_ACCEPTANCE_SHEET.md
-└── ACCEPTANCE_DEMO_STEPS.md
+└── README.md
 ```
 
 > Do NOT include: `dnsrelay.exe`, `*.log`, `*.o`, `Debug/`, `Release/`, `.git/`, `.claude/`, `background/`.

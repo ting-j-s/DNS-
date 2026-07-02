@@ -104,13 +104,10 @@ BLOCK   bad.example.com
 ```
 include/    C header files (12 files)
 src/        C source files (12 files)
+docs/       Documentation (6 files)
 build.bat   Build script
 dnsrelay.txt              Sample resource records file
 README.md                 This file
-TEST_CASES.md             Test cases and procedures
-REPORT_MATERIALS.md       Course report materials
-PROJECT_STRUCTURE.md      Detailed module descriptions
-PACKAGE_CHECKLIST.md      Final submission checklist
 ```
 
 ## Architecture
