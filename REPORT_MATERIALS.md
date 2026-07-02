@@ -353,7 +353,36 @@ All 22 core test items pass.
 
 ---
 
-## 10. 当前限制 (Current Limitations)
+## 10. 报告结构要求 (Required Report Structure)
+
+Word 报告应包含以下章节：
+
+1. **封面** — 使用课程设计报告首页模板，填写表头和课程设计内容
+2. **系统功能设计** — 基本功能 + 增强功能列表，附功能说明
+3. **模块划分** — 12 个模块的职责、接口、依赖关系（可引用 PROJECT_STRUCTURE.md）
+4. **软件流程图** — 主流程、客户端查询处理、上游响应处理、TC fallback 流程
+5. **测试用例及运行结果** — 按验收步骤列出每个测试的 nslookup 命令、程序输出截图、Wireshark 截图（可引用 TEST_CASES.md）
+6. **调试中遇到并解决的问题** — 8 个典型问题及解决方案（见第 8 节）
+7. **小组成员分工及承担比例** — 表格列出每个成员的工作内容和比例
+8. **心得体会** — 每个成员撰写，谈谈对 DNS 协议、C 语言网络编程、模块化设计的理解
+9. **源程序清单** — 按样板格式附全部源代码（参照 `源程序清单-样板.docx`）
+
+### 关于"中继结果本地存储"的报告说明
+
+验收要求"中继结果增加到数据库／内存中"。本程序的实现方案是：
+
+- 上游响应中的 Answer 记录写入**内存 CacheTable**（开放寻址哈希表）
+- **不写回** `dnsrelay.txt` 文件（文件只含静态记录）
+- 验证方式：
+  1. 程序输出：第一次查询显示 `cache inserted`，第二次显示 `cache hit response sent`
+  2. Wireshark：第一次查询有 4 个 UDP 包（含上游交互），第二次只有 2 个（仅 client ↔ relay）
+  3. 查看 `dnsrelay.txt`：文件内容未改变
+
+报告中应明确说明此设计选择及其验证方法。
+
+---
+
+## 11. 当前限制 (Current Limitations)
 
 1. Client queries are UDP only — no TCP listener on port 53
 2. TCP is used only for upstream fallback (TC=1)

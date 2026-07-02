@@ -10,7 +10,20 @@ Final submission checklist for the course design project.
 - [ ] Compile with `build.bat release`: zero errors, zero warnings
 - [ ] Manual compile: `gcc -Wall -Wextra -std=c11 -I include src/*.c -lws2_32 -o dnsrelay.exe`: zero errors, zero warnings
 
-## 2. Runtime Verification
+## 2. Acceptance Demo Verification
+
+Follow [ACCEPTANCE_DEMO_STEPS.md](ACCEPTANCE_DEMO_STEPS.md). Quick checklist:
+
+- [ ] Step 1: BLOCK — `nslookup bad.test.com <server-ip>` → NXDOMAIN, no upstream
+- [ ] Step 2: Local — `nslookup www.test.com <server-ip>` → 1.1.1.1, no upstream
+- [ ] Step 3: Relay — `nslookup www.baidu.com <server-ip>` → real IPs, 4 Wireshark packets, relay_id ≠ client_id
+- [ ] Step 4: Cache — repeat → cache hit, only 2 Wireshark packets, no upstream
+- [ ] Step 5: Multi-client — two simultaneous queries, ID translation per client
+- [ ] Step 6: Multi-type — AAAA/CNAME/NS/PTR/MX all from local, no upstream
+- [ ] Step 7: TC fallback — `nslookup -type=TXT google.com <server-ip>` → TC=1 → TCP success
+- [ ] Step 8: Timeout — `dnsrelay -dd 10.255.255.1` → timeout after ~3s, local still works
+
+## 3. Runtime Verification (quick local)
 
 - [ ] Server starts: `dnsrelay.exe -dd 8.8.8.8 dnsrelay.txt`
 - [ ] Local A record: `nslookup www.test.com 127.0.0.1` → `1.1.1.1`
@@ -25,7 +38,7 @@ Final submission checklist for the course design project.
 - [ ] Cache hit: repeat query → cache hit, no upstream relay
 - [ ] TC fallback: `nslookup -type=ANY google.com 127.0.0.1` → TC=1 → TCP success
 
-## 3. Wireshark Verification
+## 5. Wireshark Verification
 
 - [ ] Client → relay packet: correct DNS query format
 - [ ] Relay → client (local): valid DNS response, correct RCODE
@@ -68,11 +81,7 @@ src/
 ├── tcp_dns_client.c
 ├── transaction.c
 └── udp_socket.c
-```
 
-### Required other files
-
-```
 build.bat
 dnsrelay.txt
 README.md
@@ -80,29 +89,22 @@ TEST_CASES.md
 REPORT_MATERIALS.md
 PROJECT_STRUCTURE.md
 PACKAGE_CHECKLIST.md
+A4_ACCEPTANCE_SHEET.md
+ACCEPTANCE_DEMO_STEPS.md
 ```
 
-### Optional files
+### Files to EXCLUDE
 
 ```
-.gitignore
-CLAUDE.md           (development guide — may include if required)
+dnsrelay.exe
+*.o  *.obj  *.pch  *.ilk  *.pdb
+Debug/  Release/
+*.log  *.pcapng  *.pcap
+.git/  .claude/  .vs/  .vscode/
+background/
 ```
 
-## 5. Files to EXCLUDE
-
-| Category                 | Examples                                    |
-| ------------------------ | ------------------------------------------- |
-| Build artifacts          | `dnsrelay.exe`                              |
-| Object files             | `*.o`, `*.obj`                              |
-| Precompiled headers      | `*.pch`                                     |
-| IDE temporary files      | `*.ilk`, `*.pdb`, `.vs/`                    |
-| Debug/Release dirs       | `Debug/`, `Release/`                        |
-| Packet captures          | `*.pcapng`, `*.pcap`                        |
-
-> If the instructor requires an executable, place `dnsrelay.exe` in a separate `bin/` folder or submit it alongside the source as specified. The source package itself should not include compiled binaries.
-
-## 6. Code Quality Checklist
+## 7. Code Quality Checklist
 
 - [ ] No `printf()` outside `logger.c`
 - [ ] No Winsock calls outside `platform_win.c`, `udp_socket.c`, `tcp_dns_client.c`, `main.c`
@@ -116,7 +118,7 @@ CLAUDE.md           (development guide — may include if required)
 - [ ] Network byte order conversions correct (`htons`/`ntohs`/`htonl`/`ntohl`)
 - [ ] Magic numbers replaced with named constants
 
-## 7. Documentation Checklist
+## 8. Documentation Checklist
 
 - [ ] README.md: project description, build, run, features, limitations
 - [ ] TEST_CASES.md: comprehensive test cases with commands and expected results
@@ -124,12 +126,19 @@ CLAUDE.md           (development guide — may include if required)
 - [ ] PROJECT_STRUCTURE.md: directory layout, file descriptions, dependency graph
 - [ ] PACKAGE_CHECKLIST.md: this file
 
-## 8. Final Submission Package
+## 9. Final Submission
 
-Recommend packaging as:
+### Report
+
+- **Format:** Word (`.docx`)
+- **Naming:** `计算机网络课程设计-学号1-学号2-学号3.docx`
+- **Content:** Cover page + report body + source code listing
+- **Deadline:** 7 July 23:59 (teaching cloud platform)
+
+### Source Code Package
 
 ```
-学号_姓名_DNS中继服务器.zip
+学号1-学号2-学号3.rar
 ├── include/
 ├── src/
 ├── build.bat
@@ -138,22 +147,9 @@ Recommend packaging as:
 ├── TEST_CASES.md
 ├── REPORT_MATERIALS.md
 ├── PROJECT_STRUCTURE.md
-└── PACKAGE_CHECKLIST.md
+├── PACKAGE_CHECKLIST.md
+├── A4_ACCEPTANCE_SHEET.md
+└── ACCEPTANCE_DEMO_STEPS.md
 ```
 
-Or, if executable is required:
-
-```
-学号_姓名_DNS中继服务器.zip
-├── src/
-├── include/
-├── bin/
-│   └── dnsrelay.exe
-├── build.bat
-├── dnsrelay.txt
-├── README.md
-├── TEST_CASES.md
-├── REPORT_MATERIALS.md
-├── PROJECT_STRUCTURE.md
-└── PACKAGE_CHECKLIST.md
-```
+> Do NOT include: `dnsrelay.exe`, `*.log`, `*.o`, `Debug/`, `Release/`, `.git/`, `.claude/`, `background/`.

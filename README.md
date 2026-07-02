@@ -148,6 +148,57 @@ Single-threaded `select()` event loop. No busy-waiting. No multi-threading.
 8. Restore original client DNS ID and return response
 9. Cache upstream answers with TTL
 
+## Program Output Format
+
+When started with `-d` or `-dd`, each log line includes:
+
+```
+[000001] 2026-07-02 20:30:12 [INFO] client=127.0.0.1:54891  id=1  qname=www.baidu.com  qtype=A(1)  qclass=IN(1)
+[000001] 2026-07-02 20:30:12 [INFO]   => local miss, forward upstream: client_id=1, qname=www.baidu.com, qtype=A(1)
+[000002] 2026-07-02 20:30:12 [INFO]   => upstream forward sent: client_id=1, relay_id=5, qname=www.baidu.com, bytes=31
+[000003] 2026-07-02 20:30:12 [INFO] upstream response relayed: relay_id=5, client_id=1, qname=www.baidu.com, qtype=A(1), bytes=118, source=udp
+[000003] 2026-07-02 20:30:12 [INFO] cache inserted: qname=www.baidu.com, qtype=A(1), ttl=47, answers=2, source=udp
+```
+
+Fields per acceptance requirements:
+
+| Field          | Source                          |
+| -------------- | ------------------------------- |
+| Sequence No.   | `[000001]` — auto-increment     |
+| Timestamp      | `2026-07-02 20:30:12` — to sec  |
+| Client IP      | `client=127.0.0.1:54891`        |
+| Query type     | `qtype=A(1)`                    |
+| Domain name    | `qname=www.baidu.com`           |
+| Query status   | `BLOCK NXDOMAIN sent` / `local RR response sent` / `cache hit response sent` / `upstream response relayed` / `transaction timeout` |
+| Query result   | IP addresses / NXDOMAIN / cache hit / upstream success / timeout |
+
+## Acceptance Demo (Two-Computer Setup)
+
+### Server computer (runs dnsrelay + Wireshark)
+
+```bat
+dnsrelay.exe -dd 8.8.8.8 dnsrelay.txt
+```
+
+### Client computer
+
+```bat
+nslookup www.test.com                <server-ip>
+nslookup bad.test.com                <server-ip>
+nslookup -type=A multi.example.com   <server-ip>
+nslookup www.baidu.com               <server-ip>
+nslookup www.baidu.com               <server-ip>
+nslookup -type=TXT google.com        <server-ip>
+```
+
+### Notes
+
+1. Both computers must be on the same LAN
+2. The server binds `0.0.0.0:53` — accessible from LAN clients
+3. Firewall must allow inbound UDP 53 on the server
+4. TC fallback requires that the server can reach external DNS TCP port 53
+5. Wireshark filter: `udp.port == 53 || tcp.port == 53`
+
 ## Current Limitations
 
 - Client-side queries: UDP only (no TCP listener on port 53)
